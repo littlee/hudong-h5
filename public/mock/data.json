@@ -1,0 +1,117 @@
+{
+  "code": 0,
+  "data": {
+    "name": "mock data",
+    "share_config": {
+      "title": "share title",
+      "desc": "share description",
+      "icon": "https://picsum.photos/200/200/"
+    },
+    "images_config": {
+      "home_bg": "https://picsum.photos/200/200/",
+      "result_bg": "https://picsum.photos/200/200/",
+      "content_bg": "https://picsum.photos/500/1000/",
+      "home_btn": "https://picsum.photos/100/100/",
+      "detail_btn": "https://picsum.photos/200/200/"
+    },
+    "questions_config": [
+      {
+        "type": "single_choose",
+        "title": "question title 1",
+        "description": "question description",
+        "required": true,
+        "imageurl": "https://picsum.photos/200/200/",
+        "options": [
+          {
+            "name": "option 1",
+            "imageurl": "https://picsum.photos/50/50/",
+            "remark": "option remark"
+          },
+          {
+            "name": "option 2",
+            "imageurl": "https://picsum.photos/50/50/",
+            "remark": "option remark"
+          },
+          {
+            "name": "option 3",
+            "imageurl": "https://picsum.photos/50/50/",
+            "remark": "option remark"
+          }
+        ]
+      },
+      {
+        "type": "multi_choose",
+        "title": "question title 2",
+        "description": "question description",
+        "required": true,
+        "imageurl": "https://picsum.photos/200/200/",
+        "options": [
+          {
+            "name": "option 1",
+            "remark": "option remark"
+          },
+          {
+            "name": "option 2",
+            "remark": "option remark"
+          },
+          {
+            "name": "option 3",
+            "remark": "option remark"
+          }
+        ],
+        "max_num": 3,
+        "min_num": 2
+      },
+      {
+        "type": "extra_file",
+        "title": "question title 3",
+        "description": "question description",
+        "required": true,
+        "imageurl": "https://picsum.photos/200/200/",
+        "min_num": 1,
+        "max_num": 2
+      },
+      {
+        "type": "sort",
+        "title": "question title 4",
+        "description": "question description",
+        "required": true,
+        "imageurl": "https://picsum.photos/200/200/",
+        "options": [
+          {
+            "name": "option 1",
+            "remark": "option remark"
+          },
+          {
+            "name": "option 2",
+            "remark": "option remark"
+          },
+          {
+            "name": "option 3",
+            "remark": "option remark"
+          }
+        ]
+      },
+      {
+        "type": "input",
+        "title": "question title 5",
+        "description": "question description",
+        "required": true,
+        "imageurl": "https://picsum.photos/200/200/",
+        "lines": 1,
+        "min_num": 1,
+        "max_num": 10
+      },
+      {
+        "type": "input",
+        "title": "question title 6",
+        "description": "question description",
+        "required": true,
+        "imageurl": "https://picsum.photos/200/200/",
+        "lines": 3,
+        "min_num": 1,
+        "max_num": 10
+      }
+    ]
+  }
+}
