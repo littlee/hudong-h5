@@ -14,7 +14,7 @@ function getToken() {
 }
 
 function getFileKey() {
-  return '/hudong/' + shortid.generate() + '' + Date.now();
+  return 'hudong/' + shortid.generate() + '' + Date.now();
 }
 
 const Wrap = styled.div`
