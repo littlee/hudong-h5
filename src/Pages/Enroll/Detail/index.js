@@ -78,6 +78,10 @@ class Detail extends React.Component {
   }
 
   _clickBtn = () => {
+    if (this.props.query.editMode) {
+      return;
+    }
+
     if (this.state.submitting) {
       return;
     }

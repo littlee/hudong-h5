@@ -27,6 +27,21 @@ class App extends Component {
   }
 
   componentDidMount() {
+    if (query.editMode) {
+      window.addEventListener('message', e => {
+        let { data } = e;
+        if (typeof data === 'string') {
+          try {
+            data = JSON.parse(data);
+            if (data.name === 'hudong') {
+            }
+          } catch (err) {
+            console.log('INVALID JSON MESSAGE');
+          }
+        }
+      });
+    }
+
     if (query.debug) {
       localStorage.setItem(config.openid_key, 'debug_openid');
       localStorage.setItem(
@@ -80,7 +95,7 @@ class App extends Component {
   _init() {
     let dataUrl = config.api_prefix + '/activity/get';
     if (query.mock) {
-      dataUrl = '/mock/data.json'
+      dataUrl = '/mock/data.json';
     }
     axios
       .get(dataUrl, {
@@ -95,15 +110,14 @@ class App extends Component {
           return alert(message);
         }
         data.questions_config = data.questions_config.map(item => {
-          let answers = []
-          if (item.type === 'sort')  {
+          let answers = [];
+          if (item.type === 'sort') {
             answers = range(item.options.length);
-          }
-          else if (item.type === 'extra_file') {
+          } else if (item.type === 'extra_file') {
             answers = range(item.max_num).map(i => ({
               name: `附件${i + 1}`,
               value: ''
-            }))
+            }));
           }
 
           return {

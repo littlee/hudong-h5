@@ -14,7 +14,7 @@ function getToken() {
 }
 
 function getFileKey() {
-  return shortid.generate() + '' + Date.now();
+  return '/hudong/' + shortid.generate() + '' + Date.now();
 }
 
 const Wrap = styled.div`
@@ -35,22 +35,25 @@ const Add = styled.div`
   border-radius: 5px;
   background-color: white;
 
-  &:before {
-    content: '+';
-    display: block;
-    position: absolute;
+  &:before,
+  &:after {
+    content: "";
+    font-size: 3em;
+    width: 1em;
+    height: 0.15em;
+    background-color: #aaa;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    width: 1em;
-    height: 1em;
+    left: 0;
     margin: auto;
-    font-size: 3em;
-    line-height: 1em;
-    text-align: center;
-    font-weight: bold;
-    color: #aaa;
+    display: block;
+    position: absolute;
+  }
+
+  &:after {
+    width: 0.15em;
+    height: 1em;
   }
 `;
 
@@ -111,6 +114,20 @@ const Remove = styled.div`
   line-height: 1em;
   text-align: center;
   border-radius: 50%;
+
+  &:before {
+    content: "";
+    width: 0.5em;
+    height: 0.1em;
+    background-color: white;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    display: block;
+    position: absolute;
+  }
 `;
 
 const Preview = props => {
@@ -127,9 +144,7 @@ const Preview = props => {
             e.stopPropagation();
             props.onClear && props.onClear();
           }}
-        >
-          {'-'}
-        </Remove>
+        />
       ) : null}
       {props.uploading ? <SCLoading color="#333" type="spin" /> : null}
     </PreviewFrame>
