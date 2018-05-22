@@ -46,7 +46,7 @@ class Detail extends React.Component {
 
   render() {
     const { name, images_config, questions_config } = this.props.data;
-    const { changeAnswer } = this.props;
+    const { changeAnswer, query } = this.props;
     return (
       <Page
         bg={`url(${images_config.content_bg})`}
@@ -58,6 +58,7 @@ class Detail extends React.Component {
 
           {questions_config.map((item, index) => (
             <Question
+              query={query}
               key={index}
               index={index}
               {...item}

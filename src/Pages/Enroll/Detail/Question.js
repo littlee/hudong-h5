@@ -178,6 +178,7 @@ const Question = props => {
         <QuestionFiles>
           {props.answers.map((ans, index) => (
             <FilePicker
+              editMode={props.query.editMode}
               key={index}
               answer={ans}
               onChangeName={name => {
@@ -259,7 +260,7 @@ const Question = props => {
         ) : null}
         {props.imageurl ? <QuestionImg src={props.imageurl} /> : null}
 
-        {props.lines <= 1 ? (
+        {!props.lines || props.lines <= 1 ? (
           <QuestionInput
             maxLength={props.max_num}
             value={props.answers[0] || ''}

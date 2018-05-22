@@ -153,7 +153,7 @@ const Preview = props => {
 
 const FileNameInput = styled.input.attrs({
   type: 'text',
-  placeholder: '附件名称'
+  placeholder: '请填写附件名称'
 })`
   display: block;
   width: 100%;
@@ -214,6 +214,9 @@ class FilePicker extends React.Component {
   };
 
   _chooseFile = () => {
+    if (this.props.editMode) {
+      return;
+    }
     if (this.state.uploading) {
       return;
     }

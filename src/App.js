@@ -16,6 +16,26 @@ const PAGE_MAP = {
   Result
 };
 
+function padAnswers(data) {
+  data.questions_config = data.questions_config.map(item => {
+    let answers = [];
+    if (item.type === 'sort') {
+      answers = range(item.options.length);
+    } else if (item.type === 'extra_file') {
+      answers = range(item.max_num).map(i => ({
+        name: '',
+        value: ''
+      }));
+    }
+
+    return {
+      ...item,
+      answers
+    };
+  });
+  return data;
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -29,17 +49,28 @@ class App extends Component {
   componentDidMount() {
     if (query.editMode) {
       window.addEventListener('message', e => {
-        let { data } = e;
-        if (typeof data === 'string') {
+        let { data: msgData } = e;
+        if (typeof msgData === 'string') {
           try {
-            data = JSON.parse(data);
-            if (data.name === 'hudong') {
+            msgData = JSON.parse(msgData);
+            if (msgData.fromHudong) {
+              msgData = padAnswers(msgData);
+              this.setState(prevState => {
+                return {
+                  loading: false,
+                  data: {
+                    ...prevState.data,
+                    ...msgData
+                  }
+                };
+              });
             }
           } catch (err) {
             console.log('INVALID JSON MESSAGE');
           }
         }
       });
+      return;
     }
 
     if (query.debug) {
@@ -109,22 +140,9 @@ class App extends Component {
         if (code !== 0) {
           return alert(message);
         }
-        data.questions_config = data.questions_config.map(item => {
-          let answers = [];
-          if (item.type === 'sort') {
-            answers = range(item.options.length);
-          } else if (item.type === 'extra_file') {
-            answers = range(item.max_num).map(i => ({
-              name: `附件${i + 1}`,
-              value: ''
-            }));
-          }
 
-          return {
-            ...item,
-            answers
-          };
-        });
+        data = padAnswers(data);
+        
         this.setState({
           loading: false,
           data

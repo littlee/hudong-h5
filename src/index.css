@@ -14,3 +14,13 @@ body,
 #root {
   height: 100%;
 }
+
+
+/* #root {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: white;
+} */
