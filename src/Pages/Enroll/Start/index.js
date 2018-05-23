@@ -13,17 +13,21 @@ const Btn = styled.div`
   margin-bottom: 5%;
 `;
 
+const StartPage = Page.extend`
+  background-position: center;
+`
+
 class Start extends React.Component {
   render() {
     const { images_config } = this.props.data;
     return (
-      <Page bg={`url(${images_config.home_bg})`}>
+      <StartPage bg={`url(${images_config.home_bg})`}>
         <Inner>
           <Btn onClick={this._clickBtn}>
             <img src={images_config.home_btn} alt="" />
           </Btn>
         </Inner>
-      </Page>
+      </StartPage>
     );
   }
 
