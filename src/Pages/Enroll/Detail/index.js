@@ -33,7 +33,11 @@ const FormErr = styled.div`
   padding: 10px;
 `;
 
-const Title = styled.h3``;
+const Title = styled.h3`
+  margin: 0;
+  padding: 15px 0;
+  font-size: 16px;
+`;
 
 class Detail extends React.Component {
   constructor(props) {

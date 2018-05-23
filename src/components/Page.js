@@ -6,6 +6,7 @@ const Page = styled.div`
   background-image: ${props => props.bg || 'none'};
   background-repeat: ${props => (props.repeat ? 'repeat' : 'no-repeat')};
   background-size: 100%;
+  background-color: orange;
 `;
 
 export default Page;
