@@ -42,7 +42,8 @@ class App extends Component {
     this.state = {
       loading: true,
       page: query.page || 'Start',
-      data: {}
+      data: {},
+      err: ''
     };
   }
 
@@ -111,6 +112,10 @@ class App extends Component {
       return null;
     }
 
+    if (this.state.err) {
+      return <h3>{this.state.err}</h3>
+    }
+
     return (
       <DocumentTitle title={this.state.data.name}>
         <CurrPage
@@ -138,7 +143,10 @@ class App extends Component {
         let { code, message, data } = res.data;
 
         if (code !== 0) {
-          return alert(message);
+          return this.setState({
+            loading: false,
+            err: message
+          });
         }
 
         data = padAnswers(data);
