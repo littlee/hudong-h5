@@ -129,7 +129,7 @@ class Detail extends React.Component {
           const filledAns = qItem.answers.filter(item => {
             return item.value !== '';
           });
-          
+
           if (!filledAns.length) {
             this.setState({
               err: `请填写第 ${i + 1} 题`
@@ -175,7 +175,11 @@ class Detail extends React.Component {
       submitting: true
     });
 
-    const userInfo = JSON.parse(localStorage.getItem(config.userinfo_key));
+    let userInfo = JSON.parse(localStorage.getItem(config.userinfo_key));
+
+    if (!userInfo.city) {
+      delete userInfo['city'];
+    }
 
     axios
       .post(config.api_prefix + '/form', {
