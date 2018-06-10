@@ -12,7 +12,6 @@ import { range } from 'lodash';
 
 const query = qs.parse(window.location.search.slice(1));
 
-
 const PAGE_MAP = {
   Start,
   Result,
@@ -152,8 +151,11 @@ class App extends Component {
     const { type } = this.state;
     let dataUrl = DATA_URL_MAP[this.state.type];
     if (type === 'vote') {
+      let userInfo = JSON.parse(localStorage.getItem(config.userinfo_key));
+
       axios
         .post(config.api_prefix + '/vote/login', {
+          ...userInfo,
           openid: localStorage.getItem(config.openid_key),
           activity_id: query.id
         })
