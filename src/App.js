@@ -278,6 +278,7 @@ class App extends Component {
               if (quIndex === index) {
                 return {
                   ...qu,
+                  all_vote_num: qu.all_vote_num + 1,
                   is_vote: true
                 };
               }
