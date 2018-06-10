@@ -3,7 +3,7 @@ import React from 'react';
 import Page from 'components/Page';
 import styled from 'styled-components';
 import axios from 'axios';
-import config from '../../../config';
+import config from 'config';
 import Question from './Question';
 
 const Inner = styled.div`

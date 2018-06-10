@@ -1,0 +1,50 @@
+{
+  "code": 0,
+  "data": {
+    "name": "mock data",
+    "share_config": {
+      "title": "share title",
+      "desc": "share description",
+      "icon": "https://picsum.photos/200/200/"
+    },
+    "images_config": {
+      "home_bg": "https://picsum.photos/200/200/",
+      "result_bg": "https://picsum.photos/200/200/",
+      "content_bg": "https://picsum.photos/500/1000/",
+      "home_btn": "https://picsum.photos/100/100/",
+      "detail_btn": "https://picsum.photos/200/200/"
+    },
+    "questions_config": [
+      {
+        "title": "question title 1",
+        "description": "question description",
+        "imageurl": "https://picsum.photos/200/200/",
+        "vote_num": 500
+      },
+      {
+        "title": "question title 2",
+        "description": "question description",
+        "imageurl": "https://picsum.photos/200/200/",
+        "vote_num": 500
+      },
+      {
+        "title": "question title 3",
+        "description": "question description",
+        "imageurl": "https://picsum.photos/200/200/",
+        "vote_num": 500
+      },
+      {
+        "title": "question title 4",
+        "description": "question description",
+        "imageurl": "https://picsum.photos/200/200/",
+        "vote_num": 500
+      },
+      {
+        "title": "question title 5",
+        "description": "question description",
+        "imageurl": "https://picsum.photos/200/200/",
+        "vote_num": 500
+      }
+    ]
+  }
+}

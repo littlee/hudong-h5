@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import qs from 'qs';
-import Start from './Pages/Enroll/Start';
-import Detail from './Pages/Enroll/Detail';
-import Result from './Pages/Enroll/Result';
+import Start from './components/Start';
+import Result from './components/Result';
+
+import Enroll from './Pages/Enroll';
+import Vote from './Pages/Vote';
 import axios from 'axios';
 import config from './config';
 import DocumentTitle from 'react-document-title';
@@ -12,9 +14,24 @@ const query = qs.parse(window.location.search.slice(1));
 
 const PAGE_MAP = {
   Start,
-  Detail,
-  Result
+  Result,
+  detailPage: {
+    enroll: Enroll,
+    vote: Vote
+  }
 };
+
+const DATA_URL_MAP = {
+  enroll: config.api_prefix + '/activity/get',
+  vote: '/mock/vote.json'
+};
+
+function getCurrPage(page, type) {
+  if (page === 'Detail') {
+    return PAGE_MAP.detailPage[type];
+  }
+  return PAGE_MAP[page];
+}
 
 function padAnswers(data) {
   data.questions_config = data.questions_config.map(item => {
@@ -40,6 +57,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: query.type || 'enroll',
       loading: true,
       page: query.page || 'Start',
       data: {},
@@ -106,14 +124,14 @@ class App extends Component {
   }
 
   render() {
-    const CurrPage = PAGE_MAP[this.state.page] || Start;
+    const CurrPage = getCurrPage(this.state.page, this.state.type) || Start;
 
     if (this.state.loading) {
       return null;
     }
 
     if (this.state.err) {
-      return <h3>{this.state.err}</h3>
+      return <h3>{this.state.err}</h3>;
     }
 
     return (
@@ -129,10 +147,7 @@ class App extends Component {
   }
 
   _init() {
-    let dataUrl = config.api_prefix + '/activity/get';
-    if (query.mock) {
-      dataUrl = '/mock/data.json';
-    }
+    let dataUrl = DATA_URL_MAP[this.state.type];
     axios
       .get(dataUrl, {
         params: {
@@ -150,39 +165,37 @@ class App extends Component {
         }
 
         data = padAnswers(data);
-        
+
         this.setState({
           loading: false,
           data
         });
 
-        window.WECHAT.shareFriend(
-          {
-            appmessageTitle: data.share_config.title,
-            appmessageDesc: data.share_config.desc,
-            link:
-              window.location.origin +
-              window.location.pathname +
-              '?id=' +
-              data.id,
-            imgUrl: data.share_config.icon
-          },
-          function() {}
-        );
-        window.WECHAT.shareTimeline(
-          {
-            timelineTitle: data.share_config.title,
-            link:
-              window.location.origin +
-              window.location.pathname +
-              '?id=' +
-              data.id,
-            imgUrl: data.share_config.icon
-          },
-          function() {}
-        );
+        this._wechatConfig(data);
       });
   }
+
+  _wechatConfig = data => {
+    window.WECHAT.shareFriend(
+      {
+        appmessageTitle: data.share_config.title,
+        appmessageDesc: data.share_config.desc,
+        link:
+          window.location.origin + window.location.pathname + '?id=' + data.id,
+        imgUrl: data.share_config.icon
+      },
+      function() {}
+    );
+    window.WECHAT.shareTimeline(
+      {
+        timelineTitle: data.share_config.title,
+        link:
+          window.location.origin + window.location.pathname + '?id=' + data.id,
+        imgUrl: data.share_config.icon
+      },
+      function() {}
+    );
+  };
 
   _changePage = page => {
     this.setState({

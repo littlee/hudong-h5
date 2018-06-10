@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Loading from 'react-loading';
-import config from '../../../config';
+import config from 'config';
 import shortid from 'shortid';
 
 function isImage(file) {
