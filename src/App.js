@@ -12,6 +12,7 @@ import { range } from 'lodash';
 
 const query = qs.parse(window.location.search.slice(1));
 
+
 const PAGE_MAP = {
   Start,
   Result,
@@ -207,12 +208,24 @@ class App extends Component {
   }
 
   _wechatConfig = data => {
+    let queryStr = '';
+    if (query.type) {
+      queryStr = qs.stringify({
+        id: query.id,
+        type: query.type
+      });
+    } else {
+      queryStr = qs.stringify({
+        id: query.id
+      });
+    }
+
     window.WECHAT.shareFriend(
       {
         appmessageTitle: data.share_config.title,
         appmessageDesc: data.share_config.desc,
         link:
-          window.location.origin + window.location.pathname + '?id=' + data.id,
+          window.location.origin + window.location.pathname + '?' + queryStr,
         imgUrl: data.share_config.icon
       },
       function() {}
@@ -221,7 +234,7 @@ class App extends Component {
       {
         timelineTitle: data.share_config.title,
         link:
-          window.location.origin + window.location.pathname + '?id=' + data.id,
+          window.location.origin + window.location.pathname + '?' + queryStr,
         imgUrl: data.share_config.icon
       },
       function() {}
