@@ -3,6 +3,36 @@ import React from 'react';
 import Page from 'components/Page';
 import styled from 'styled-components';
 import VoteBlock from './VoteBlock';
+import Modal from 'react-modal';
+Modal.setAppElement('#root');
+
+const modalStyle = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+  },
+  content: {
+    position: 'absolute',
+    width: '90%',
+    top: '5%',
+    bottom: '5%',
+    left: 0,
+    right: 0,
+    margin: 'auto',
+    border: 'none',
+    background: 'transparent',
+    overflow: 'auto',
+    WebkitOverflowScrolling: 'touch',
+    borderRadius: 0,
+    outline: 'none',
+    padding: 0
+  }
+};
+
 // import axios from 'axios';
 // import config from 'config';
 
@@ -46,11 +76,18 @@ const VoteBlockWrap = styled.div`
   justify-content: space-between;
 `;
 
+const ModalImg = styled.img`
+  display: block;
+  width: 100%;
+`;
+
 class Vote extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       err: '',
+      showModal: false,
+      modalImg: null
     };
   }
 
@@ -71,6 +108,7 @@ class Vote extends React.Component {
                 key={index}
                 {...item}
                 onClickVote={this._clickVote.bind(this, item, index)}
+                onClickImg={this._openModal}
               />
             ))}
           </VoteBlockWrap>
@@ -81,6 +119,18 @@ class Vote extends React.Component {
             </Btn>
           </BtnWrap>
         </Inner>
+
+        <Modal
+          isOpen={this.state.showModal}
+          onRequestClose={this._closeModal}
+          shouldCloseOnOverlayClick={false}
+          style={modalStyle}
+        >
+          <ModalImg
+            src={this.state.modalImg}
+            onClick={this._closeModal}
+          />
+        </Modal>
       </Page>
     );
   }
@@ -94,6 +144,20 @@ class Vote extends React.Component {
 
   _clickVote = (item, index) => {
     this.props.onVote && this.props.onVote(item, index);
+  };
+
+  _openModal = modalImg => {
+    this.setState({
+      showModal: true,
+      modalImg
+    });
+  };
+
+  _closeModal = () => {
+    this.setState({
+      showModal: false,
+      modalImg: null
+    });
   };
 }
 

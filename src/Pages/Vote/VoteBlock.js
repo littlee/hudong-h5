@@ -86,7 +86,7 @@ class VoteBlock extends React.Component {
         <Content>
           <Title>{title}</Title>
           {description ? <Desc>{description}</Desc> : null}
-          {imageurl ? <Img src={imageurl} /> : null}
+          {imageurl ? <Img src={imageurl} onClick={this._clickImg} /> : null}
         </Content>
         <Control>
           <Num>{all_vote_num}</Num>
@@ -126,6 +126,10 @@ class VoteBlock extends React.Component {
           ing: false
         });
       });
+  };
+
+  _clickImg = () => {
+    this.props.onClickImg && this.props.onClickImg(this.props.imageurl);
   };
 }
 
