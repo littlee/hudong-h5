@@ -27,11 +27,11 @@ const Btn = styled.div`
   }
 `;
 
-const FormErr = styled.div`
-  background-color: #ffebee;
-  color: #f44336;
-  padding: 10px;
-`;
+// const FormErr = styled.div`
+//   background-color: #ffebee;
+//   color: #f44336;
+//   padding: 10px;
+// `;
 
 const Title = styled.h3`
   margin: 0;
@@ -51,7 +51,6 @@ class Vote extends React.Component {
     super(props);
     this.state = {
       err: '',
-      submitting: false
     };
   }
 
@@ -67,13 +66,17 @@ class Vote extends React.Component {
           <Title>{name}</Title>
           <VoteBlockWrap>
             {questions_config.map((item, index) => (
-              <VoteBlock key={index} {...item} />
+              <VoteBlock
+                activity_id={this.props.query.id}
+                key={index}
+                {...item}
+                onClickVote={this._clickVote.bind(this, item, index)}
+              />
             ))}
           </VoteBlockWrap>
-          {this.state.err ? <FormErr>{this.state.err}</FormErr> : null}
 
           <BtnWrap>
-            <Btn onClick={this._clickBtn} disabled={this.state.submitting}>
+            <Btn onClick={this._clickBtn}>
               <img src={images_config.detail_btn} alt="" />
             </Btn>
           </BtnWrap>
@@ -86,10 +89,11 @@ class Vote extends React.Component {
     if (this.props.query.editMode) {
       return;
     }
+    this.props.changePage('Result');
+  };
 
-    if (this.state.submitting) {
-      return;
-    }
+  _clickVote = (item, index) => {
+    this.props.onVote && this.props.onVote(item, index);
   };
 }
 

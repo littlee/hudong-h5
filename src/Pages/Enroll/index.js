@@ -182,7 +182,7 @@ class Detail extends React.Component {
     }
 
     axios
-      .post(config.api_prefix + '/form', {
+      .post(config.api_prefix + '/collect/form', {
         ...userInfo,
         activity_id: id,
         openid: localStorage.getItem(config.openid_key),

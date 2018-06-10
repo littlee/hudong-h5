@@ -22,8 +22,8 @@ const PAGE_MAP = {
 };
 
 const DATA_URL_MAP = {
-  enroll: config.api_prefix + '/activity/get',
-  vote: '/mock/vote.json'
+  enroll: config.api_prefix + '/collect/activity/get',
+  vote: config.api_prefix + '/vote/activity/get'
 };
 
 function getCurrPage(page, type) {
@@ -141,13 +141,48 @@ class App extends Component {
           data={this.state.data}
           changePage={this._changePage}
           changeAnswer={this._changeAns}
+          onVote={this._onVote}
         />
       </DocumentTitle>
     );
   }
 
   _init() {
+    const { type } = this.state;
     let dataUrl = DATA_URL_MAP[this.state.type];
+    if (type === 'vote') {
+      axios
+        .post(config.api_prefix + '/vote/login', {
+          openid: localStorage.getItem(config.openid_key),
+          activity_id: query.id
+        })
+        .then(res => {
+          axios
+            .get(dataUrl, {
+              params: {
+                id: query.id
+              }
+            })
+            .then(res => {
+              let { code, message, data } = res.data;
+              if (code !== 0) {
+                return this.setState({
+                  loading: false,
+                  err: message
+                });
+              }
+              data.questions_config = data.vote_config;
+              this.setState({
+                loading: false,
+                data
+              });
+              this._wechatConfig(data);
+            });
+        });
+      return;
+    }
+
+    // collect default behavior
     axios
       .get(dataUrl, {
         params: {
@@ -156,21 +191,17 @@ class App extends Component {
       })
       .then(res => {
         let { code, message, data } = res.data;
-
         if (code !== 0) {
           return this.setState({
             loading: false,
             err: message
           });
         }
-
         data = padAnswers(data);
-
         this.setState({
           loading: false,
           data
         });
-
         this._wechatConfig(data);
       });
   }
@@ -214,6 +245,27 @@ class App extends Component {
                 return {
                   ...qu,
                   answers: value
+                };
+              }
+              return qu;
+            }
+          )
+        }
+      };
+    });
+  };
+
+  _onVote = (item, index) => {
+    this.setState(prevState => {
+      return {
+        data: {
+          ...prevState.data,
+          questions_config: prevState.data.questions_config.map(
+            (qu, quIndex) => {
+              if (quIndex === index) {
+                return {
+                  ...qu,
+                  is_vote: true
                 };
               }
               return qu;

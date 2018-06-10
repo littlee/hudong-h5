@@ -10,7 +10,7 @@ function isImage(file) {
 }
 
 function getToken() {
-  return axios.get(config.api_prefix + '/getToken');
+  return axios.get(config.api_prefix + '/collect/getToken');
 }
 
 function getFileKey() {

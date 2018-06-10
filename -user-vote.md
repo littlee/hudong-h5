@@ -66,7 +66,7 @@ title | string | 标题
 description | string | 描述
 imageurl | string | 图片链接
 all_vote_num | number | 用户投的总票数
-is_vote | boolean | 
+is_vote | boolean | 用户是否对该选项投票过
 
 # 活动投票
 
