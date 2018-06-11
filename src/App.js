@@ -160,6 +160,11 @@ class App extends Component {
           activity_id: query.id
         })
         .then(res => {
+          if (res.data.code !== 0) {
+            alert('/login', res.data.message);
+            return;
+          }
+
           axios
             .get(dataUrl, {
               params: {
