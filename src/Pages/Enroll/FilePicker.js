@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Loading from 'react-loading';
 import config from 'config';
-import shortid from 'shortid';
+// import shortid from 'shortid';
 
 function isImage(file) {
   return /^image\/*/.test(file.type);
@@ -13,9 +13,9 @@ function getToken() {
   return axios.get(config.api_prefix + '/collect/getToken');
 }
 
-function getFileKey() {
-  return 'hudong/' + shortid.generate() + '' + Date.now();
-}
+// function getFileKey() {
+//   return 'hudong/' + shortid.generate() + '' + Date.now();
+// }
 
 const Wrap = styled.div`
   float: left;
@@ -37,7 +37,7 @@ const Add = styled.div`
 
   &:before,
   &:after {
-    content: "";
+    content: '';
     font-size: 3em;
     width: 1em;
     height: 0.15em;
@@ -116,7 +116,7 @@ const Remove = styled.div`
   border-radius: 50%;
 
   &:before {
-    content: "";
+    content: '';
     width: 0.5em;
     height: 0.1em;
     background-color: white;
@@ -255,7 +255,9 @@ class FilePicker extends React.Component {
         AccessKeyId: accessKeyId,
         AccessKeySecret: accessKeySecret,
         SecurityToken: stsToken,
-        bucket
+        bucket,
+        key,
+        cdn
       } = res.data.data;
 
       let ossClient = new window.OSS.Wrapper({
@@ -266,17 +268,16 @@ class FilePicker extends React.Component {
         bucket
       });
 
-      let fileKey = getFileKey();
+      let fileKey = key;
 
       ossClient.multipartUpload(fileKey, file).then(ossRes => {
+        const filePath = `${cdn}${fileKey}`;
         this.setState({
-          uploading: false
+          uploading: false,
+          preview: filePath
         });
         this.fileInput.current.value = '';
-        this.props.onComplete &&
-          this.props.onComplete(
-            `http://${bucket}.${region}.aliyuncs.com/${fileKey}`
-          );
+        this.props.onComplete && this.props.onComplete(filePath);
       });
     });
   };
